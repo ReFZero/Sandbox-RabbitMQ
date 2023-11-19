@@ -1,5 +1,6 @@
 package pl.ReFZero.Receiver.controller;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,5 +26,10 @@ public class MessageController {
         } else {
             return "Brak wiadomosci do odczytu!";
         }
+    }
+
+    @RabbitListener(queues = "test")
+    public void listenerMessage(String message){
+        System.out.println(message);
     }
 }
