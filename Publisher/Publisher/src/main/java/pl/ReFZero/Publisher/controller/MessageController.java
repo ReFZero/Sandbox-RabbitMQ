@@ -3,7 +3,7 @@ package pl.ReFZero.Publisher.controller;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.ReFZero.notification.Notification;
+import pl.ReFZero.Publisher.model.Notification;
 
 @RestController
 public class MessageController {

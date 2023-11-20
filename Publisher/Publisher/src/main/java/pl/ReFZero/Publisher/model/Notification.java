@@ -1,8 +1,6 @@
-package pl.ReFZero.notification;
+package pl.ReFZero.Publisher.model;
 
-import java.io.Serializable;
-
-public class Notification implements Serializable {
+public class Notification {
 
     private String email;
     private String title;

@@ -9,7 +9,7 @@ Aplikacje wykorzystujace RabbitMQ
 - RabbitMQ
 - Spring Web
 #### Zmiany w ostatnim commicie:
-- Dodano mechanizm przesyłajacy i odbierajacy POJO
+- Dodano mechanizm przesyłajacy i odbierajacy JSON
 #### Dodatkowe informacje:
 - 2 Api Publisher i Receiver
 - Komunikacja 2 API poprzez RabbitMQ 

@@ -3,10 +3,11 @@ package pl.ReFZero.Receiver.controller;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.ReFZero.notification.Notification;
+import pl.ReFZero.Receiver.model.Notification;
 
 import java.util.Optional;
 
@@ -22,22 +23,19 @@ public class MessageController {
 
     @GetMapping("/notification")
     public ResponseEntity<Notification> receiveNotification() {
-        Optional<Object> notification = Optional.ofNullable(rabbitTemplate.receiveAndConvert("test"));
+        Optional<Notification> notification = Optional.ofNullable(
+                rabbitTemplate.receiveAndConvert(
+                        "test",
+                        ParameterizedTypeReference.forType(Notification.class)));
         if (notification.isPresent()) {
-            switch (notification.get()) {
-                case Notification n -> {
-                    return ResponseEntity.ok(n);
-                }
-                case default -> {
-                    return ResponseEntity.notFound().build();
-                }
-            }
+            return ResponseEntity.ok(notification.get());
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
+
 
     @RabbitListener(queues = "test")
     public void listenerMessage(Notification notification) {
-        System.out.println(notification.getEmail() + " " + notification.getTitle() +" "+ notification.getBody());
+        System.out.println(notification.getEmail() + " " + notification.getTitle() + " " + notification.getBody());
     }
 }
