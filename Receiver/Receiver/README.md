@@ -1,2 +1,4 @@
 # RabbitMQ - Receiver
-Aplikacja pobierajaca wiadomosci  
+Aplikacja pobierajaca 
+### Zmiany w ostatnim commicie:
+- Pobieranie POJO od RabbitMQ

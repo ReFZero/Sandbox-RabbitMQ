@@ -2,9 +2,8 @@ package pl.ReFZero.Publisher.controller;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.ReFZero.notification.Notification;
 
 @RestController
 public class MessageController {
@@ -16,9 +15,9 @@ public class MessageController {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @GetMapping("/message")
-    public String sendMessage(@RequestParam String message) {
-        rabbitTemplate.convertAndSend("test", message); // "test" - nazwa kolejki
-        return "Wrzucono wiadomosc do RabbitMQ";
+    @PostMapping("/notification")
+    public String sendNotification(@RequestBody Notification notification) {
+        rabbitTemplate.convertAndSend("test", notification);
+        return "Notyfikacja wyslana";
     }
 }

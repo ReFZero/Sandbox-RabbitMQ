@@ -1,4 +1,4 @@
 # RabbitMQ - Publisher
-Aplikacja wysylajaca wiadomosci
+Aplikacja wysylajaca 
 ### Zmiany w ostatnim commicie:
-- Dodano mechanizm subskrypcji
+- Wysyłanie POJO do RabbitMQ
