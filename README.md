@@ -9,7 +9,11 @@ Aplikacje wykorzystujace RabbitMQ
 - RabbitMQ
 - Spring Web
 #### Zmiany w ostatnim commicie:
-- Dodano mechanizm przesyłajacy i odbierajacy JSON
+- Dodano serwer Eureka
 #### Dodatkowe informacje:
-- 2 Api Publisher i Receiver
+- 4 Serwisy:
+  - Publisher
+  - Receiver
+  - Eureka
+  - StudentApi
 - Komunikacja 2 API poprzez RabbitMQ 

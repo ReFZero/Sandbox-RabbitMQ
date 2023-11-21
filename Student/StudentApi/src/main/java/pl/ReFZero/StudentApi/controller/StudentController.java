@@ -10,7 +10,6 @@ import pl.ReFZero.StudentApi.service.StudentService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api")
 public class StudentController {
 
     private final StudentService studentService;
