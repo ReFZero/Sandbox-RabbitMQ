@@ -1,4 +1,4 @@
 # RabbitMQ - Publisher
-Aplikacja wysylajaca 
+Aplikacja wysylajaca
 ### Zmiany w ostatnim commicie:
-- Wysyłanie JSON do RabbitMQ
+- Odpytuje StudentApi a nastepnie wysyła do RabbitMQ
