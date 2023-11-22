@@ -2,6 +2,7 @@ package pl.ReFZero.StudentApi.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.ReFZero.StudentApi.exception.customExceptions.StudentNotFoundException;
 import pl.ReFZero.StudentApi.model.Student;
 import pl.ReFZero.StudentApi.repository.StudentRepository;
 import pl.ReFZero.StudentApi.service.StudentService;
@@ -26,7 +27,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudentById(Long studentId) {
-        return studentRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student could not be found!"));
+        return studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student could not be found"));
     }
 
     @Override
@@ -37,14 +38,14 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteStudent(Long studentId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student could not be found!"));
+                .orElseThrow(() -> new StudentNotFoundException("Student could not be found"));
         studentRepository.delete(student);
     }
 
     @Override
     public Student updateStudentName(String newStudentFirstName, Long studentId) {
         Student studentFromDb = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student could not be found!"));
+                .orElseThrow(() -> new StudentNotFoundException("Student could not be found"));
         studentFromDb.setFirstName(newStudentFirstName);
         return studentFromDb;
     }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.ReFZero.StudentApi.model.Student;
 import pl.ReFZero.StudentApi.service.StudentService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -29,7 +30,7 @@ public class StudentController {
     }
 
     @PostMapping("/students/add")
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> addStudent(@RequestBody @Valid Student student) {
         return new ResponseEntity<>(studentService.addStudent(student), HttpStatus.CREATED);
     }
 
@@ -48,7 +49,7 @@ public class StudentController {
 
     @PutMapping("/students/{student_id}/update")
     public ResponseEntity<Student> updateStudentData(
-            @RequestBody Student studentUpdated,
+            @RequestBody @Valid Student studentUpdated,
             @PathVariable(name = "student_id") Long studentId) {
         return new ResponseEntity<>(studentService.updateStudentData(studentUpdated, studentId), HttpStatus.OK);
     }
