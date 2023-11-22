@@ -26,5 +26,11 @@ public class Student {
     @Email
     @Column(unique = true)
     private String email;
+    @NotNull
+    private Status status;
 
+    public enum Status{
+        ACTIVE,
+        INACTIVE
+    }
 }

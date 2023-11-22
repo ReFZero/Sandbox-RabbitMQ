@@ -2,13 +2,16 @@ package pl.ReFZero.StudentApi.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.ReFZero.StudentApi.exception.customExceptions.StudentIsNotActiveException;
 import pl.ReFZero.StudentApi.exception.customExceptions.StudentNotFoundException;
+import pl.ReFZero.StudentApi.exception.customExceptions.StudentWithGivenEmailExistsException;
 import pl.ReFZero.StudentApi.model.Student;
 import pl.ReFZero.StudentApi.repository.StudentRepository;
 import pl.ReFZero.StudentApi.service.StudentService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -21,25 +24,39 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getAllStudents() {
+    public List<Student> getAllStudents(Student.Status status) {
+        if (status != null) {
+            return studentRepository.findAllByStatus(status);
+        }
         return new ArrayList<>(studentRepository.findAll());
     }
 
     @Override
-    public Student getStudentById(Long studentId) {
-        return studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student could not be found"));
+    public Student getStudentById(Long studentId) throws StudentIsNotActiveException {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student could not be found"));
+        if (!Student.Status.ACTIVE.equals(student.getStatus())) {
+            throw new StudentIsNotActiveException("Student is not Active");
+        }
+        return student;
     }
+
 
     @Override
     public Student addStudent(Student student) {
-        return studentRepository.save(student);
+        if (studentRepository.existsByEmail(student.getEmail())) {
+            throw new StudentWithGivenEmailExistsException("The student with the given email address exists");
+        } else {
+            return studentRepository.save(student);
+        }
     }
+
 
     @Override
     public void deleteStudent(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentNotFoundException("Student could not be found"));
-        studentRepository.delete(student);
+        student.setStatus(Student.Status.INACTIVE);
+        studentRepository.save(student);
     }
 
     @Override
@@ -57,7 +74,8 @@ public class StudentServiceImpl implements StudentService {
             studentFromDb.setFirstName(updatedStudent.getFirstName());
             studentFromDb.setLastName(updatedStudent.getLastName());
             studentFromDb.setEmail(updatedStudent.getEmail());
-            return studentFromDb;
+            studentFromDb.setStatus(updatedStudent.getStatus());
+            return studentRepository.save(studentFromDb);
         }
         return studentRepository.save(updatedStudent);
     }

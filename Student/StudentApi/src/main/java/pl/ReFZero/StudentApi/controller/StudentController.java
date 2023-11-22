@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.ReFZero.StudentApi.exception.customExceptions.StudentIsNotActiveException;
 import pl.ReFZero.StudentApi.model.Student;
 import pl.ReFZero.StudentApi.service.StudentService;
 
@@ -20,12 +21,15 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public ResponseEntity<List<Student>> getAllStudents() {
-        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
+    public ResponseEntity<List<Student>> getAllStudents(
+            @RequestParam(name = "status", required = false) Student.Status status) {
+
+        return new ResponseEntity<>(studentService.getAllStudents(status), HttpStatus.OK);
     }
 
     @GetMapping("/students/{student_id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable(name = "student_id") Long studentId) {
+    public ResponseEntity<Student> getStudentById(
+            @PathVariable(name = "student_id") Long studentId) throws StudentIsNotActiveException {
         return new ResponseEntity<>(studentService.getStudentById(studentId), HttpStatus.OK);
     }
 

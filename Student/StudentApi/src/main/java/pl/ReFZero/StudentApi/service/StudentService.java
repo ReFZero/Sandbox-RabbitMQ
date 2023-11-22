@@ -1,13 +1,14 @@
 package pl.ReFZero.StudentApi.service;
 
+import pl.ReFZero.StudentApi.exception.customExceptions.StudentIsNotActiveException;
 import pl.ReFZero.StudentApi.model.Student;
 
 import java.util.List;
 
 public interface StudentService {
-    List<Student> getAllStudents();
+    List<Student> getAllStudents(Student.Status status);
 
-    Student getStudentById(Long studentId);
+    Student getStudentById(Long studentId) throws StudentIsNotActiveException;
 
     Student addStudent(Student student);
 
