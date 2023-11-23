@@ -37,6 +37,7 @@ public class CoursesApplication {
                         .endDate(LocalDateTime.of(2023, 12, 23, 14, 20))
                         .participantsLimit(5L)
                         .participantsNumber(0L)
+                        .status(Course.Status.ACTIVE)
                         .build(),
                 Course.builder()
                         .code("SQL23")
@@ -46,8 +47,8 @@ public class CoursesApplication {
                         .endDate(LocalDateTime.of(2024, 2, 7, 13, 40))
                         .participantsLimit(3L)
                         .participantsNumber(0L)
+                        .status(Course.Status.INACTIVE)
                         .build()
         ));
     }
-
 }

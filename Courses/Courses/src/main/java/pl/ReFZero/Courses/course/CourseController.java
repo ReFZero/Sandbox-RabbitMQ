@@ -24,8 +24,9 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<Course> getCourses() {
-        return courseService.getCourses();
+    public List<Course> getCourses(
+            @RequestParam(name = "status", required = false) Course.Status status) {
+        return courseService.getCourses(status);
     }
 
     @PostMapping("/add")
