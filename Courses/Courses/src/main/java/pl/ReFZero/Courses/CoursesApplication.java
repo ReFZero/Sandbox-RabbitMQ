@@ -4,15 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import pl.ReFZero.Courses.model.Course;
 import pl.ReFZero.Courses.repository.CourseRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
 @EnableEurekaClient
+@EnableFeignClients
 public class CoursesApplication {
 
     private final CourseRepository courseRepository;
@@ -38,6 +41,7 @@ public class CoursesApplication {
                         .participantsLimit(5L)
                         .participantsNumber(0L)
                         .status(Course.Status.ACTIVE)
+                        .courseMember(new ArrayList<>())
                         .build(),
                 Course.builder()
                         .code("SQL23")
@@ -48,6 +52,7 @@ public class CoursesApplication {
                         .participantsLimit(3L)
                         .participantsNumber(0L)
                         .status(Course.Status.INACTIVE)
+                        .courseMember(new ArrayList<>())
                         .build()
         ));
     }

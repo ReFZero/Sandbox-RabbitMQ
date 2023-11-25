@@ -6,10 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import pl.ReFZero.Courses.exception.customExceptions.CourseCanNotSetFullStatusException;
-import pl.ReFZero.Courses.exception.customExceptions.CourseNotFoundException;
-import pl.ReFZero.Courses.exception.customExceptions.CourseParticipantsLimitIsExceededException;
-import pl.ReFZero.Courses.exception.customExceptions.CourseStartAfterEndDateException;
+import pl.ReFZero.Courses.exception.customExceptions.*;
 
 import java.util.Date;
 
@@ -18,47 +15,51 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConfigurationException.class)
     public ResponseEntity<ErrorObject> studentNotFoundExceptionHandler(CourseNotFoundException ex, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-
-        errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
-        errorObject.setMessage(ex.getMessage());
-        errorObject.setTimestamp(new Date());
-
-        return new ResponseEntity<>(errorObject, HttpStatus.NOT_FOUND);
+        return getException(ex, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CourseStartAfterEndDateException.class)
     public ResponseEntity<ErrorObject> courseStartAfterEndDateExceptionHandler(CourseStartAfterEndDateException ex, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-
-        errorObject.setStatusCode(HttpStatus.CONFLICT.value());
-        errorObject.setMessage(ex.getMessage());
-        errorObject.setTimestamp(new Date());
-
-        return new ResponseEntity<>(errorObject, HttpStatus.CONFLICT);
+        return getException(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(CourseParticipantsLimitIsExceededException.class)
     public ResponseEntity<ErrorObject> courseParticipantsLimitIsExceededExceptionHandler(CourseParticipantsLimitIsExceededException ex, WebRequest request) {
-        ErrorObject errorObject = new ErrorObject();
-
-        errorObject.setStatusCode(HttpStatus.CONFLICT.value());
-        errorObject.setMessage(ex.getMessage());
-        errorObject.setTimestamp(new Date());
-
-        return new ResponseEntity<>(errorObject, HttpStatus.CONFLICT);
+        return getException(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(CourseCanNotSetFullStatusException.class)
     public ResponseEntity<ErrorObject> courseCanNotSetFullStatusExceptionHandler(CourseCanNotSetFullStatusException ex, WebRequest request) {
+        return getException(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CourseIsNotActiveException.class)
+    public ResponseEntity<ErrorObject> courseIsNotActiveExceptionHandler(CourseIsNotActiveException ex, WebRequest request) {
+        return getException(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CourseStudentIsNotActiveException.class)
+    public ResponseEntity<ErrorObject> courseStudentIsNotActiveExceptionHandler(CourseStudentIsNotActiveException ex, WebRequest request) {
+        return getException(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CourseStudentIAAlreadyEnrolledException.class)
+    public ResponseEntity<ErrorObject> courseStudentIAAlreadyEnrolledExceptionHandler(CourseStudentIAAlreadyEnrolledException ex, WebRequest request) {
+        return getException(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(StudentCannotBeEnrollException.class)
+    public ResponseEntity<ErrorObject> studentCannotBeEnrollExceptionHandler(StudentCannotBeEnrollException ex, WebRequest request) {
+        return getException(ex, HttpStatus.BAD_REQUEST);
+    }
+
+    private static <T extends RuntimeException> ResponseEntity<ErrorObject> getException(T ex, HttpStatus httpStatus) {
         ErrorObject errorObject = new ErrorObject();
 
-        errorObject.setStatusCode(HttpStatus.CONFLICT.value());
+        errorObject.setStatusCode(httpStatus.value());
         errorObject.setMessage(ex.getMessage());
         errorObject.setTimestamp(new Date());
 
-        return new ResponseEntity<>(errorObject, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorObject, httpStatus);
     }
-
-
 }

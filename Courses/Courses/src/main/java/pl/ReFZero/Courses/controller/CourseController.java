@@ -1,6 +1,8 @@
-package pl.ReFZero.Courses.course;
+package pl.ReFZero.Courses.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ReFZero.Courses.model.Course;
 import pl.ReFZero.Courses.service.CourseService;
@@ -34,5 +36,10 @@ public class CourseController {
         return courseService.addCourse(course);
     }
 
-
+    @PostMapping("/{courseCode}/student/{studentId}")
+    public ResponseEntity<?> courseEnrollment(@PathVariable String courseCode,
+                                              @PathVariable Long studentId) {
+        courseService.courseEnrollment(courseCode, studentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

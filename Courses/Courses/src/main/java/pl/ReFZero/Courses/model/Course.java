@@ -15,6 +15,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document
 @AllArgsConstructor
@@ -41,6 +42,7 @@ public class Course {
     private Long participantsNumber;
     @NotNull
     private Status status;
+    private List<CourseMember> courseMember;
 
     public enum Status {
         ACTIVE,
@@ -70,5 +72,12 @@ public class Course {
         validateCourseDate();
         validateParticipantsLimit();
         validateFullStatus();
+    }
+
+    public void incrementParticipantsNumber() {
+        participantsNumber++;
+        if (participantsNumber.equals(participantsLimit)) {
+            setStatus(Course.Status.FULL);
+        }
     }
 }
