@@ -58,5 +58,9 @@ public class StudentController {
         return new ResponseEntity<>(studentService.updateStudentData(studentUpdated, studentId), HttpStatus.OK);
     }
 
+    @PostMapping("/students/emails")
+    public ResponseEntity<List<Student>> studentsByLastName(@RequestBody List<String> emails) {
+        return new ResponseEntity<>(studentService.studentsByEmail(emails),HttpStatus.OK);
+    }
 
 }

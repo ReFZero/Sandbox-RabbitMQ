@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 @Setter
 @Builder
 @SequenceGenerator(name = "seqIdGen", initialValue = 20000, allocationSize = 1)
+
 public class Student {
 
     @Id
@@ -23,10 +24,10 @@ public class Student {
     @Size(min = 3)
     private String lastName;
     @NotBlank
-    @Email
     @Column(unique = true)
+    @Email
     private String email;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @NotNull
     private Status status;
 

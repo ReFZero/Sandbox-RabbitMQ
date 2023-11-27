@@ -17,4 +17,7 @@ public interface StudentService {
     Student updateStudentName(String newStudentFirstName, Long studentId);
 
     Student updateStudentData(Student updatedStudent, Long studentId);
+
+    List<Student> studentsByEmail(List<String> emails);
+
 }

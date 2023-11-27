@@ -1,23 +1,26 @@
 # RabbitMQ 
 Architektura mikroserwisowa </br>
-~~Aplikacje wykorzystujace RabbitMQ~~ 
+Aplikacje wykorzystujace RabbitMQ
 ## Info:
 - Java 17
 - Spring boot 2.7.17
 - Maven
 - H2 (Local)
 - MongoDb (Remote)
-- ~~RabbitMQ (Nieaktywny)~~
+- RabbitMQ
 ### Dependencje:
-- ~~RabbitMQ~~
+- RabbitMQ
 - Spring Web
 - Spring Cloud
 - Spring Gateway
 - Lombok
 - H2
 - MongoDb 
+- Jackson
 #### Zmiany w ostatnim commicie:
-- Dodano Course Api
+- Dodatkowe metody w CourseService
+- Klasa NotificationInfoDto
+- Serializacja i deserializacja (Jackson)
 #### Dodatkowe informacje:
 - 6 Serwisow:
   - ~~Publisher (Nieaktywny)~~
@@ -25,5 +28,5 @@ Architektura mikroserwisowa </br>
   - Eureka
   - StudentApi
   - Gateway
-  - Course
+  - Course (Wysyla do RabbitMq)
   - ~~(Nieaktywny) Komunikacja 2 API poprzez RabbitMQ (Publisher - Receiver)~~

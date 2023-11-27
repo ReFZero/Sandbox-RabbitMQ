@@ -11,7 +11,6 @@ import pl.ReFZero.StudentApi.service.StudentService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -79,4 +78,11 @@ public class StudentServiceImpl implements StudentService {
         }
         return studentRepository.save(updatedStudent);
     }
+
+    @Override
+    public List<Student> studentsByEmail(List<String> emails) {
+        return studentRepository.findStudentsByEmailIn(emails);
+    }
+
+
 }

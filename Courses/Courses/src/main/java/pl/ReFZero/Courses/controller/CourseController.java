@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ReFZero.Courses.model.Course;
+import pl.ReFZero.Courses.model.dto.StudentDto;
 import pl.ReFZero.Courses.service.CourseService;
 
 import javax.validation.Valid;
@@ -41,5 +42,16 @@ public class CourseController {
                                               @PathVariable Long studentId) {
         courseService.courseEnrollment(courseCode, studentId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{code}/members")
+    public List<StudentDto> getCourseMembers(@PathVariable String code) {
+        return courseService.getCourseMembers(code);
+    }
+
+    @PostMapping("/{code}/finish-enroll")
+    public ResponseEntity<?> courseFinishEnroll(@PathVariable String code){
+        courseService.courseFinishEnroll(code);
+        return  ResponseEntity.ok().build();
     }
 }

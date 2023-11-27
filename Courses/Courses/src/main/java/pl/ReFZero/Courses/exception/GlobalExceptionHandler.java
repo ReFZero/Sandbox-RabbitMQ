@@ -1,6 +1,8 @@
 package pl.ReFZero.Courses.exception;
 
+import feign.FeignException;
 import org.apache.commons.configuration.ConfigurationException;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -53,6 +55,14 @@ public class GlobalExceptionHandler {
         return getException(ex, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CourseIsInactiveException.class)
+    public ResponseEntity<ErrorObject> courseIsInactiveExceptionHandler(CourseIsInactiveException ex, WebRequest request) {
+        return getException(ex, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<?> handleFeignException(FeignException e){
+      return ResponseEntity.status(e.status()).body( new JSONObject(e.contentUTF8()).toMap());
+    }
     private static <T extends RuntimeException> ResponseEntity<ErrorObject> getException(T ex, HttpStatus httpStatus) {
         ErrorObject errorObject = new ErrorObject();
 
@@ -62,4 +72,7 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorObject, httpStatus);
     }
+
+
+
 }
